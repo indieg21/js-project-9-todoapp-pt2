@@ -1,0 +1,24 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    }
+    
+    input {
+    padding: 10px 20px;
+    }
+    
+    .container {
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 10px;
+    }
+    
+    .todo-display{
+    border: 1px solid orange;
+    margin-top: 20px;
+    }
+    p {
+    padding: 10px;
+    }
