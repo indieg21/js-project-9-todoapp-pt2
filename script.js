@@ -10,8 +10,8 @@ if (Array.isArray(getData) && getData.length !== 0) {
 } else {
   // if getData is empty basically when localStorage is empty then fetch data from jsonplaceholder API using axios method
   window.localStorage.removeItem("todos");
-  axios // Axios is a Javascript library used to make HTTP requests from node.js or XMLHttpRequests from the browser that also supports the ES6 Promise API.
-    .get("https://jsonplaceholder.typicode.com/todos?_limit=5") // get is the method to for axios object to get data from api. we pass url of api to the get method and it returns promise. to get data from promose we use then method.
+   // Axios is a Javascript library used to make HTTP requests from node.js or XMLHttpRequests from the browser that also supports the ES6 Promise API.
+    axios.get("https://jsonplaceholder.typicode.com/todos?_limit=5") // get is the method to for axios object to get data from api. we pass url of api to the get method and it returns promise. to get data from promose we use then method.
     .then((res) => {
       // res (is response) in then method we pass the call back function. it gets response from Promise which is our data we can return.
       localStore(res.data); // we save the data to local storage.
@@ -26,9 +26,12 @@ submitBtn.addEventListener("click", addTodo);
 
 function addTodo() {
   let title = document.getElementById("todo-title").value; // reading the value from the input
+  let completed = document.getElementById("completed").value;
+  let boolean = Boolean(completed); 
   let id = new Date().getTime(); // creating a new id everytime we add a new task
-
-  todos.push({ title: title, id: id }); // pushing to the todo array (basically saving)
+  let userId = id+100;
+  todos.push({ userId:userId, id:id, title: title, completed:boolean}); // pushing to the todo array (basically saving)
+  document.getElementById("todo-title").value= "";
   console.log(todos);
   localStore(todos); // the local storage will run & save the todo list (tasks) a save to the local storage
   render(); // displaying the list from the local storage
@@ -43,6 +46,7 @@ function localStore(todos) {
 function deleteTodo(e) {
   // deleting tasks from the todo list
   let targetId = parseInt(e.target.id);
+  console.log (typeof targetId)
   todos = todos.filter((todo) => {
     if (todo.id === targetId) {
       return false;
