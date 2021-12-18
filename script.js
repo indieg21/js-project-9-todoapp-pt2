@@ -3,7 +3,7 @@
 // 3. function to store todos to localstorage.
 
 let todos = [];
-let getData = JSON.parse(localStorage.getItem("todos")); // getting data from local storage
+let getData = JSON.parse(localStorage.getItem("todosp9")); // getting data from local storage
 if (Array.isArray(getData) && getData.length !== 0) {
   // If getData is array and not empty then assing to the todos varaible.
   todos = getData;
@@ -40,7 +40,7 @@ function addTodo() {
 //  local storage fucntion
 function localStore(todos) {
   // everytime you update the todos. It will be receieved and updated to the localStorage
-  localStorage.setItem("todos", JSON.stringify(todos));
+  localStorage.setItem("todosp9", JSON.stringify(todos));
 }
 
 function deleteTodo(e) {
