@@ -14,25 +14,34 @@ if (Array.isArray(getData) && getData.length !== 0) {
     axios.get("https://jsonplaceholder.typicode.com/todos?_limit=5") 
     .then((res) => {
       // res (is response) in then method we pass the call back function. it gets response from Promise which is our data we can return.
-      res.data.map(list =>{
-
-        localStore({title:list.title, id:list.id}); // we save the data to local storage.
+      let apiData = res.data;
+      apiData.map((apiTodo) =>{
+        let{title, id} = apiTodo;
+        saveData(title, id)
+         // we save the data to local storage.
       })
-      
+      localStore(todos); // the local storage will run & save the todo list (tasks) a save to the local storage
       todos = JSON.parse(localStorage.getItem("todos-pt2")); //retrive data from local storage and assign to todos.
       render(); // run the render function to display the data
     })
     .catch((err) => console.error(err));
 }
 
+function saveData(title, id) {
+  todos.push({ title: title, id: id }); // pushing to the todo array (basically saving)
+}
+
 let submitBtn = document.getElementById("add-todo"); //adding todo function.
 submitBtn.addEventListener("click", addTodo);
+
+
+
 
 function addTodo() {
   let title = document.getElementById("todo-title").value; // reading the value from the input
   let id = new Date().getTime(); // creating a new id everytime we add a new task
 
-  todos.push({ title: title, id: id }); // pushing to the todo array (basically saving)
+  saveData(title, id);
   console.log(todos);
   localStore(todos); // the local storage will run & save the todo list (tasks) a save to the local storage
   render(); // displaying the list from the local storage
