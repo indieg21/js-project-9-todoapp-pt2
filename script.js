@@ -1,30 +1,40 @@
-// 1. function to dipslay todos
-// 2. function to add todos.
-// 3. function to store todos to localstorage.
+
+//Summary 
+// Making an api call & the recieved data is stored in todos variable. This happens in else section
+//Api aplication programing interface
+// Api is considered requesting data from url (jsonplaceholder url).  The Axios is the program which handles asyn jobs (the requst from api call) 
+//Axios libaray is used to pull the data from the ((jsonplaceholder url)call
+// line 11-15 if the data is present in local storage then we get that data & save to todos varible (if)
+// In-place of saving empyt array I am getting data from api call (else)
+// The only difference in App 9 is now we are adding the api call to reterive data from JsonP. which allows me to add
+// random information list from jsonplaceholder. This purpose of this api is to act as a filler Todo list
+// This api runs if my local storage is empty
 
 let todos = [];
 let getData = JSON.parse(localStorage.getItem("todos-pt2")); // getting data from local storage
 if (Array.isArray(getData) && getData.length !== 0) {
-  // If getData is array and not empty then assing to the todos varaible.
+  // If getData is array and not empty then assign to the todos varaible.
   todos = getData;
-} else {
+} else { 
   // if getData is empty basically when localStorage is empty then fetch data from jsonplaceholder API using axios method
-  window.localStorage.removeItem("todos-pt2");
+  window.localStorage.removeItem("todos-pt2"); // clear out localStorage. Delete all todo's refresh page
  // Axios is a Javascript library used to make HTTP requests from node.js or XMLHttpRequests from the browser that also supports the ES6 Promise API.
-    axios.get("https://jsonplaceholder.typicode.com/todos?_limit=5") 
+    axios.get("https://jsonplaceholder.typicode.com/todos?_limit=6")// get will recieve (request) the data from the url link. Which is jsonplaceholder
     .then((res) => {
       // res (is response) in then method we pass the call back function. it gets response from Promise which is our data we can return.
-      let apiData = res.data;
-      apiData.map((apiTodo) =>{
-        let{title, id} = apiTodo;
-        saveData(title, id)
+      //console.log(res)
+      let apiData = res.data; // this is all data from the api call (array of todos)
+      apiData.map((apiTodo) =>{ // map loops through & receives the todo objects
+        let{title, id} = apiTodo; //save title & id
+        saveData(title, id) // calling the save data function (before I saving whole data instead of just title & id)
+        // I made seperate function to save title & id in line 34.
          // we save the data to local storage.
       })
       localStore(todos); // the local storage will run & save the todo list (tasks) a save to the local storage
       todos = JSON.parse(localStorage.getItem("todos-pt2")); //retrive data from local storage and assign to todos.
       render(); // run the render function to display the data
     })
-    .catch((err) => console.error(err));
+    .catch((err) => console.error(err)); // if data is not recieved from the Api call (request for the link) then error will be displayed.
 }
 
 function saveData(title, id) {
