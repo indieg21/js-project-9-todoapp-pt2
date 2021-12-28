@@ -1,20 +1,24 @@
-
 //Summary 
 // Making an api call & the recieved data is stored in todos variable. This happens in else section
 //Api aplication programing interface
 // Api is considered requesting data from url (jsonplaceholder url).  The Axios is the program which handles asyn jobs (the requst from api call) 
-//Axios libaray is used to pull the data from the ((jsonplaceholder url)call
+//Axios libaray is used to pull the data from the (jsonplaceholder url)call
 // line 11-15 if the data is present in local storage then we get that data & save to todos varible (if)
-// In-place of saving empyt array I am getting data from api call (else)
+// In-place of saving empty array I am getting data from api call (else)
 // The only difference in App 9 is now we are adding the api call to reterive data from JsonP. which allows me to add
-// random information list from jsonplaceholder. This purpose of this api is to act as a filler Todo list
+// random information list from jsonplaceholder. The purpose of this api is to act as a filler Todo list
 // This api runs if my local storage is empty
 
-let todos = [];
-let getData = JSON.parse(localStorage.getItem("todos-pt2")); // getting data from local storage
+let todos = []; // the empty array is used to store the object (todos) from the api call or input field (id, title)
+
+function getInfo() {
+
+  let getData = JSON.parse(localStorage.getItem("todos-pt2")); // getting data from local storage
+  
 if (Array.isArray(getData) && getData.length !== 0) {
   // If getData is array and not empty then assign to the todos varaible.
-  todos = getData;
+  todos = getData; 
+  render(); // displaying the todos to the page
 } else { 
   // if getData is empty basically when localStorage is empty then fetch data from jsonplaceholder API using axios method
   window.localStorage.removeItem("todos-pt2"); // clear out localStorage. Delete all todo's refresh page
@@ -32,11 +36,17 @@ if (Array.isArray(getData) && getData.length !== 0) {
       })
       localStore(todos); // the local storage will run & save the todo list (tasks) a save to the local storage
       todos = JSON.parse(localStorage.getItem("todos-pt2")); //retrive data from local storage and assign to todos.
-      render(); // run the render function to display the data
+      render(); // run the render function to display the data from the api
     })
     .catch((err) => console.error(err)); // if data is not recieved from the Api call (request for the link) then error will be displayed.
 }
 
+}
+window.addEventListener("load", getInfo); // on page load we are calling getinfo function. Now all our logic for geting the data is in the function
+
+
+
+ 
 function saveData(title, id) {
   todos.push({ title: title, id: id }); // pushing to the todo array (basically saving)
 }
@@ -52,7 +62,7 @@ function addTodo() {
   let id = new Date().getTime(); // creating a new id everytime we add a new task
 
   saveData(title, id);
-  console.log(todos);
+  //console.log(todos);
   localStore(todos); // the local storage will run & save the todo list (tasks) a save to the local storage
   render(); // displaying the list from the local storage
 }
